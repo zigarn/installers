@@ -1,8 +1,9 @@
 #!/bin/sh
 
 CURRENT=$(dpkg-query --showformat='${Version}' --show zoom 2>/dev/null)
-PACKAGE=$(mktemp)
+PACKAGE=$(mktemp --suffix .deb)
 curl --silent --location -o ${PACKAGE} https://us02web.zoom.us/client/latest/zoom_amd64.deb
+chmod a+r ${PACKAGE}
 VERSION=$(dpkg-deb --field ${PACKAGE} Version)
 if [ "${CURRENT}" = "${VERSION}" ]; then
 	echo "Already latest zoom ${CURRENT}"
